@@ -1,0 +1,74 @@
+func load(){
+let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+
+let managedContext = appDelegate.managedObjectContext!
+
+let fetchRequest = NSFetchRequest(entityName: "RateEntity")
+//fetchRequest.resultType = NSFetchRequestResultType.DictionaryResultType
+
+var error: NSError?
+
+let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
+
+/*  // find all the attribute keys in the entity
+let entity = NSEntityDescription.entityForName("RateEntity", inManagedObjectContext: managedContext)
+let attributes: NSDictionary = entity!.attributesByName
+var keys = attributes.allKeys
+*/
+
+
+/*
+for attribute in attributes{
+
+println("Test: \(attribute.key)")
+}*/
+
+if let results = fetchedResults {
+//currencyMO = results
+println("Results \(results.count)")
+for result in results as NSArray {
+
+//println(result)
+println(result.valueForKey("currency")!)
+//currencyDict[result.valueForKey("currency")! as String] = result.valueForKey("rate")! as? Double
+println(result.valueForKey("rate")!)
+}
+
+//currencyDict = fetchRequest.dictionaryWithValuesForKeys(["currency" : "rate"])
+
+//println("currencyMO: \(currencyMO)")
+
+
+
+
+} else {
+println("Could not fetch \(error), \(error!.userInfo)")
+}
+
+//fetchedResults?.removeAll(keepCapacity: false)
+}
+
+func save(currency: String, rate: Double){
+let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+let managedContext = appDelegate.managedObjectContext!
+managedContext.deletedObjects // Delete all objects in the manageContext.
+
+let entity = NSEntityDescription.entityForName("RateEntity", inManagedObjectContext: managedContext)
+let currencyAndRate = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+
+//for (currency, rate) in currencyDict{
+currencyAndRate.setValue(rate, forKey: "rate")
+currencyAndRate.setValue(currency, forKey: "currency")
+
+//println(currencyAndRate.valueForKey("rate"))
+//println(currencyAndRate.valueForKey("currency"))
+
+var error: NSError?
+if managedContext.save(&error){
+println("Saved!")
+} else {
+println("Could not save \(error), \(error?.userInfo)")
+}
+//currencyMO.append(currencyAndRate)
+//}
+}
