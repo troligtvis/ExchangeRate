@@ -19,10 +19,17 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     var fromCurrency: String!
     var toCurrency: String!
     
+    @IBOutlet weak var myLabel: UILabel!
+    
     @IBOutlet weak var picker1: UIPickerView!
     @IBOutlet weak var picker2: UIPickerView!
     @IBOutlet weak var convertedValue: UILabel!
     @IBOutlet weak var textField: UITextField!
+
+    
+    @IBAction func refreshButton(sender: AnyObject) {
+        
+    }
     
     @IBAction func convertButton(sender: AnyObject) {
         
@@ -81,6 +88,8 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
             toCurrency = "Empty"
         }
         
+       
+        
         /*
         for var i = 0; i < currencyDict.count; ++i{
                 //save(currencyArray[i], rate: currencyDict[currencyArray[i]]!)
@@ -127,7 +136,30 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         }
     }
     
+    
+    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView!) -> UIView {
+        var pickerLabel = view as UILabel!
+        if view == nil {  //if no label there yet
+            pickerLabel = UILabel()
+            
+            //color  and center the labels background
+            let hue = CGFloat(row)/CGFloat(currencyArray.count)
+            pickerLabel.backgroundColor = UIColor(hue: hue, saturation: 1.0, brightness:1.0, alpha: 1.0)
+            pickerLabel.textAlignment = .Center
+            
+        }
+        
+        let titleData = currencyArray[row]
+        let myTitle = NSAttributedString(string: titleData, attributes: [NSForegroundColorAttributeName:UIColor.blackColor()])
+        pickerLabel!.attributedText = myTitle
+        
+        return pickerLabel
+        
+    }
+    
+    
     //size the components of the UIPickerView
+    /*
     func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 36.0
     }
@@ -135,5 +167,7 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return 200
     }
+    */
+
 }
 
