@@ -68,9 +68,6 @@
                                 <state key="normal" title="Convert">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="172" y="430" width="55" height="30"/>
-                                </variation>
                                 <connections>
                                     <action selector="convertButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Zhr-wr-r82"/>
                                 </connections>
@@ -117,15 +114,7 @@
                                 <exclude reference="Lsz-wD-70g"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="gv4-oj-7IB"/>
-                                <exclude reference="lIZ-JS-knT"/>
-                                <exclude reference="At4-xu-4kR"/>
-                                <exclude reference="lOB-e7-VKh"/>
-                                <exclude reference="wZw-xC-sEQ"/>
-                                <exclude reference="3jr-4z-2Wb"/>
-                                <exclude reference="6LA-mj-TdH"/>
-                                <exclude reference="7Gr-S4-WSU"/>
-                                <exclude reference="d53-M8-cNA"/>
+                                <exclude reference="uJk-OI-e0E"/>
                                 <exclude reference="AXq-gE-Q4F"/>
                                 <exclude reference="VNf-b7-t7z"/>
                                 <exclude reference="WqQ-Wt-SOw"/>
@@ -133,9 +122,17 @@
                                 <exclude reference="hf5-ii-Oqo"/>
                                 <exclude reference="hzt-Ub-QGe"/>
                                 <exclude reference="jhN-XY-klA"/>
+                                <exclude reference="3jr-4z-2Wb"/>
+                                <exclude reference="6LA-mj-TdH"/>
+                                <exclude reference="7Gr-S4-WSU"/>
+                                <exclude reference="d53-M8-cNA"/>
+                                <exclude reference="At4-xu-4kR"/>
+                                <exclude reference="lOB-e7-VKh"/>
+                                <exclude reference="wZw-xC-sEQ"/>
+                                <exclude reference="gv4-oj-7IB"/>
+                                <exclude reference="lIZ-JS-knT"/>
                                 <exclude reference="sQj-FY-b3g"/>
                                 <exclude reference="w9q-Mu-4Ps"/>
-                                <exclude reference="uJk-OI-e0E"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -147,15 +144,7 @@
                                 <include reference="Lsz-wD-70g"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="gv4-oj-7IB"/>
-                                <include reference="lIZ-JS-knT"/>
-                                <include reference="At4-xu-4kR"/>
-                                <include reference="lOB-e7-VKh"/>
-                                <include reference="wZw-xC-sEQ"/>
-                                <include reference="3jr-4z-2Wb"/>
-                                <include reference="6LA-mj-TdH"/>
-                                <include reference="7Gr-S4-WSU"/>
-                                <include reference="d53-M8-cNA"/>
+                                <exclude reference="uJk-OI-e0E"/>
                                 <include reference="AXq-gE-Q4F"/>
                                 <include reference="VNf-b7-t7z"/>
                                 <include reference="WqQ-Wt-SOw"/>
@@ -163,9 +152,17 @@
                                 <include reference="hf5-ii-Oqo"/>
                                 <include reference="hzt-Ub-QGe"/>
                                 <exclude reference="jhN-XY-klA"/>
+                                <include reference="3jr-4z-2Wb"/>
+                                <include reference="6LA-mj-TdH"/>
+                                <include reference="7Gr-S4-WSU"/>
+                                <include reference="d53-M8-cNA"/>
+                                <include reference="At4-xu-4kR"/>
+                                <include reference="lOB-e7-VKh"/>
+                                <include reference="wZw-xC-sEQ"/>
+                                <include reference="gv4-oj-7IB"/>
+                                <include reference="lIZ-JS-knT"/>
                                 <include reference="sQj-FY-b3g"/>
                                 <include reference="w9q-Mu-4Ps"/>
-                                <exclude reference="uJk-OI-e0E"/>
                             </mask>
                         </variation>
                         <connections>
@@ -181,6 +178,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="convertedValue" destination="Lsz-wD-70g" id="oVp-ta-DGr"/>
+                        <outlet property="mainView" destination="kh9-bI-dsS" id="yXJ-6N-DVW"/>
                         <outlet property="picker1" destination="afD-Gx-PQx" id="8uf-rJ-DpV"/>
                         <outlet property="picker2" destination="DBa-As-uS2" id="6aw-Xy-SLw"/>
                         <outlet property="textField" destination="ncP-ek-JIF" id="Kn7-Pt-efh"/>

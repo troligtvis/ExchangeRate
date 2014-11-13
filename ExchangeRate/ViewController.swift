@@ -26,6 +26,7 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     @IBOutlet weak var convertedValue: UILabel!
     @IBOutlet weak var textField: UITextField!
 
+    @IBOutlet var mainView: UIView!
     
     @IBAction func refreshButton(sender: AnyObject) {
         
@@ -36,27 +37,39 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         if currencyDict.count != 0 {
             println("From: \(currencyDict[fromCurrency])")
             println("To: \(currencyDict[toCurrency])")
-        
-            var textFieldValue = NSString(string: textField.text)
-            var fromValue = textFieldValue.doubleValue
-        
+            
+            var textFieldValueString = NSString(string: textField.text)
+            var textFieldValueDouble = textFieldValueString.doubleValue
+            var fromValue: Double = textFieldValueDouble / currencyDict[fromCurrency]!
             var toValue = currencyDict[toCurrency]
-        
+            
             convertedValue.text = String(format:"%f", calculateRate(fromValue, toValue!))
-        
+            
         } else {
             
             var titleOnAlert = "Error!"
-            var messageOnAlert = "There is no data"
+            var messageOnAlert = "There is no data."
             
             var alert = UIAlertController(title: titleOnAlert, message: messageOnAlert, preferredStyle: UIAlertControllerStyle.Alert)
-            alert.addAction(UIAlertAction(title: "Continue", style: UIAlertActionStyle.Cancel, handler:nil))
+            alert.addAction(UIAlertAction(title: "Refresh", style: UIAlertActionStyle.Cancel, handler:refresh))
             self.presentViewController(alert, animated: true, completion: nil)
         }
+    }
+    
+    func refresh(alertView: UIAlertAction!){
+        // Refresha här !
+        xmlParser.load()
         
+        currencyDict = xmlParser.currencyDict
+        copyDictToArray()
         
-        // Load from the DB
-        // load()
+        picker1.reloadAllComponents()
+        picker2.reloadAllComponents()
+        
+        createPicker(picker1, pickerId: 1)
+        createPicker(picker2, pickerId: 2)
+        
+        println("refresh")
     }
     
     @IBAction func tapped(sender: AnyObject) {
@@ -65,30 +78,38 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     
     override func viewDidAppear(animated: Bool) {
         xmlParser = XMLParser()
-        xmlParser.initXMLParser()
-        currencyDict = xmlParser.currencyDict
         
-        xmlParser.load()
+        //xmlParser.startXMLParser()
+        
+        //xmlParser.load()
+        
+        xmlParser.loadTime()
+        
+        currencyDict = xmlParser.currencyDict
         
         copyDictToArray()
         
-        picker1.delegate = self
-        picker1.dataSource = self
-        picker1.selectRow(0, inComponent: 0, animated: true) // select default row.
-        
-        picker2.delegate = self
-        picker2.dataSource = self
-        picker2.selectRow(0, inComponent: 0, animated: true)
-        
         if(currencyDict.count != 0){
-            fromCurrency = currencyArray[0]
-            toCurrency = currencyArray[0]
+            
+            //picker1.delegate = self
+            //picker1.dataSource = self
+            //picker1.selectRow(0, inComponent: 0, animated: true) // select default row.
+            createPicker(picker1, pickerId: 1)
+            //fromCurrency = currencyArray[0]
+            
+            
+            //picker2.delegate = self
+            //picker2.dataSource = self
+            //picker2.selectRow(0, inComponent: 0, animated: true)
+            createPicker(picker2, pickerId: 2)
+            //toCurrency = currencyArray[0]
         } else {
             fromCurrency = "Empty"
             toCurrency = "Empty"
+            //currencyArray[0] = "Empty"
         }
         
-       
+       xmlParser.loadTime()
         
         /*
         for var i = 0; i < currencyDict.count; ++i{
@@ -97,6 +118,18 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         }
         */
         
+    }
+    
+    func createPicker(picker: UIPickerView, pickerId: Int){
+        picker.delegate = self
+        picker.dataSource = self
+        picker.selectRow(0, inComponent: 0, animated: true)
+        
+        if pickerId == 1 {
+            fromCurrency = currencyArray[0]
+        } else {
+            toCurrency = currencyArray[0]
+        }
     }
     
     func copyDictToArray(){
@@ -142,19 +175,18 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         if view == nil {  //if no label there yet
             pickerLabel = UILabel()
             
-            //color  and center the labels background
             let hue = CGFloat(row)/CGFloat(currencyArray.count)
             pickerLabel.backgroundColor = UIColor(hue: hue, saturation: 1.0, brightness:1.0, alpha: 1.0)
             pickerLabel.textAlignment = .Center
-            
         }
         
-        let titleData = currencyArray[row]
-        let myTitle = NSAttributedString(string: titleData, attributes: [NSForegroundColorAttributeName:UIColor.blackColor()])
-        pickerLabel!.attributedText = myTitle
+        //let titleData = currencyArray[row]
+        //let myTitle = NSAttributedString(string: titleData, attributes: [NSForegroundColorAttributeName:UIColor.blackColor()])
+        //pickerLabel!.attributedText = myTitle
+        
+        pickerLabel!.text = currencyArray[row]
         
         return pickerLabel
-        
     }
     
     
