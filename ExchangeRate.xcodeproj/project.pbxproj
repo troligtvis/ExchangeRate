@@ -10,6 +10,8 @@
 		2B8E30271A175BF50005A55F /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8E30261A175BF50005A55F /* Exchange.swift */; };
 		2B8E30291A175BF50005A55F /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8E30281A175BF50005A55F /* Time.swift */; };
 		2B8E302B1A175C3F0005A55F /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8E302A1A175C3F0005A55F /* CoreDataStack.swift */; };
+		2B8E302D1A17A8AE0005A55F /* XMLParserKladd in Resources */ = {isa = PBXBuildFile; fileRef = 2B8E302C1A17A8AE0005A55F /* XMLParserKladd */; };
+		2B8E302F1A17BF340005A55F /* TIME in Resources */ = {isa = PBXBuildFile; fileRef = 2B8E302E1A17BF340005A55F /* TIME */; };
 		2B98C28A1A10C39900AAB0EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B98C2891A10C39900AAB0EE /* AppDelegate.swift */; };
 		2B98C28D1A10C39A00AAB0EE /* ExchangeRate.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2B98C28B1A10C39A00AAB0EE /* ExchangeRate.xcdatamodeld */; };
 		2B98C28F1A10C39A00AAB0EE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B98C28E1A10C39A00AAB0EE /* ViewController.swift */; };
@@ -37,6 +39,8 @@
 		2B8E30261A175BF50005A55F /* Exchange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
 		2B8E30281A175BF50005A55F /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		2B8E302A1A175C3F0005A55F /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		2B8E302C1A17A8AE0005A55F /* XMLParserKladd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = XMLParserKladd; sourceTree = "<group>"; };
+		2B8E302E1A17BF340005A55F /* TIME */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TIME; path = ../../HitList/TIME; sourceTree = "<group>"; };
 		2B98C2841A10C39900AAB0EE /* ExchangeRate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExchangeRate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B98C2881A10C39900AAB0EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B98C2891A10C39900AAB0EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +111,8 @@
 				2B8E30261A175BF50005A55F /* Exchange.swift */,
 				2B98C2871A10C39900AAB0EE /* Supporting Files */,
 				2BA0A1F51A12BF190086CA40 /* Kladd */,
+				2B8E302E1A17BF340005A55F /* TIME */,
+				2B8E302C1A17A8AE0005A55F /* XMLParserKladd */,
 			);
 			path = ExchangeRate;
 			sourceTree = "<group>";
@@ -218,9 +224,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B98C2921A10C39A00AAB0EE /* Main.storyboard in Resources */,
+				2B8E302F1A17BF340005A55F /* TIME in Resources */,
 				2BA0A1F61A12BF190086CA40 /* Kladd in Resources */,
 				2B98C2971A10C39A00AAB0EE /* LaunchScreen.xib in Resources */,
 				2B98C2941A10C39A00AAB0EE /* Images.xcassets in Resources */,
+				2B8E302D1A17A8AE0005A55F /* XMLParserKladd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,6 @@ import CoreData
 
 class Time: NSManagedObject {
 
-    @NSManaged var lastUpdate: NSDate
+    @NSManaged var lastUpdate: String
 
 }

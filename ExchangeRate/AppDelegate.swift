@@ -19,13 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        importXMLDataIfNeeded()
+        xmlParser = XMLParser()
+        xmlParser.importXMLDataIfNeeded(coreDataStack, needReset: false)
+        
+        //xmlParser.fetchTime(coreDataStack)
         
         let navController = window!.rootViewController as UINavigationController
         let viewController = navController.topViewController as ViewController
         viewController.coreDataStack = coreDataStack
-        
-        
         
         return true
     }
@@ -53,36 +54,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Saves changes in the application's managed object context before the application terminates.
         coreDataStack.saveContext()
     }
-
-    func importXMLDataIfNeeded(){
-        println("importXMLDataIfNeeded!")
-        let fetchRequest = NSFetchRequest(entityName: "Exchange")
-        var error: NSError? = nil
-        
-        let results = coreDataStack.context.countForFetchRequest(fetchRequest, error: &error)
-        println("importXMLDataIfNeeder: \(results)")
-        
-        if results == 0 {
-                var fetchError: NSError? = nil
-                
-                let results = coreDataStack.context.executeFetchRequest(fetchRequest, error: &fetchError)
-                
-                for object in results!{
-                    let cube = object as Exchange
-                    coreDataStack.context.deleteObject(cube)
-                }
-                
-                coreDataStack.saveContext()
-                importXMLData()
-        }
-    }
     
-    func importXMLData(){
-        println("importXMLData!")
-        xmlParser = XMLParser()
-        xmlParser.startXMLParser(coreDataStack)
-        //xmlParser.importXMLData(coreDataStack)
-    }
-
 }
 

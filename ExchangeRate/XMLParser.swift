@@ -12,24 +12,23 @@ import CoreData
 
 class XMLParser:NSObject, NSXMLParserDelegate {
     
-    var currency = [NSManagedObject]()
-    
-    var strXMLData:String = ""
-    var currentElement:String = ""
     var currencyDict: [String : Double] = [:]
     var currencyArray: [String] = []
     
     var latestParseTime: String!
     
+    
+
+    
     func startXMLParser(coreDataStack: CoreDataStack){
         if(Reachability.isConnectedToNetwork()){ // Check if we have internet connection
             var url: String = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
             var urlToSend: NSURL = NSURL(string: url)!
-        
+            
             // Parse the XML
             var parser = NSXMLParser(contentsOfURL: urlToSend)
             parser!.delegate = self
-        
+            
             // Start the event-driven parsing
             var success: Bool = parser!.parse()
             
@@ -37,30 +36,54 @@ class XMLParser:NSObject, NSXMLParserDelegate {
                 println("parse success!")
                 self.copyDictToArray()
                 importXMLData(coreDataStack)
+                //importXMLDataIfNeeded(coreDataStack, needReset: true)
+                //clearTimeIfNeeded(coreDataStack, needReset: false)
             } else {
                 println("parse failure!")
             }
         } else {
             println("No internetz!")
-            
-            /*
-            if self.load() > 0{
-                println("Load success")
-            } else {
-                println("Load failed")
-            }
-            */
         }
     }
     
     func copyDictToArray(){
+        //currencyArray.removeAll(keepCapacity: false)
+        //currencyArray = []
         for currency in currencyDict.keys{
             currencyArray.append(currency)
         }
     }
     
+        
+       
+    func importXMLDataIfNeeded(coreDataStack: CoreDataStack, needReset: Bool){
+        println("importXMLDataIfNeeded!")
+        let fetchRequest = NSFetchRequest(entityName: "Exchange")
+        var error: NSError? = nil
+        
+        let results = coreDataStack.context.countForFetchRequest(fetchRequest, error: &error)
+        println("importXMLDataIfNeeder: \(results)")
+        
+        if results == 0 || needReset{
+            println("importXMLDataIfNeeded: \(results)")
+            var fetchError: NSError? = nil
+            
+            let results = coreDataStack.context.executeFetchRequest(fetchRequest, error: &fetchError)
+            
+            for object in results!{
+                let cube = object as Exchange
+                coreDataStack.context.deleteObject(cube)
+            }
+            
+            coreDataStack.saveContext()
+            self.startXMLParser(coreDataStack)
+        } else {
+            self.importXMLData(coreDataStack)
+        }
+    }
+    
     func importXMLData(coreDataStack: CoreDataStack){
-        println(currencyDict.count)
+        //  println(currencyDict.count)
         for var i = 0; i < currencyDict.count; ++i{
             let exchangeEntity = NSEntityDescription.entityForName("Exchange", inManagedObjectContext: coreDataStack.context)
             
@@ -68,192 +91,23 @@ class XMLParser:NSObject, NSXMLParserDelegate {
             
             exchange.currency = currencyArray[i]
             exchange.rate = currencyDict[currencyArray[i]]!
-            println("\(currencyArray[i]) andRate: \(currencyDict[currencyArray[i]])")
+            //println("\(currencyArray[i]) andRate: \(currencyDict[currencyArray[i]])")
         }
         
-        println(currencyDict)
-        println(currencyArray)
-        coreDataStack.saveContext()
-    }
-
-    
-    /*
-    func loadTime(){
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        let managedContext = appDelegate.managedObjectContext!
-        let fetchRequest = NSFetchRequest(entityName: "TimeEntity")
-        
-        var error: NSError?
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
-        
-        if let results = fetchedResults {
-            println("loadTime: Results \(results.count)")
-            if results.count == 0 {
-                // First time
-                println("First time")
-                self.startXMLParser()
-                saveTime()
-                
-            } else {
-                
-               // println("nånting: \(results[0])")
-                
-               checkTime(results[0].valueForKey("time")! as NSDate)
-                /*
-                for result in results as NSArray {
-                    println(result.valueForKey("time")! as NSDate)
-                    checkTime(result.valueForKey("time")! as NSDate)
-                }*/
-            }
-        } else {
-            println("Could not fetch \(error), \(error!.userInfo)")
-        }
-    }
-    */
-    
-    /*
-    func checkTime(time1: NSDate){
-        let time2: NSDate = NSDate(timeIntervalSinceNow: NSTimeInterval(0))
-        let interval = time2.timeIntervalSinceDate(time1)
-        var newtime = (interval / 60) / 60
-        
-        if newtime > 24 {
-            self.startXMLParser()
-        } else {
-            self.load()
-        }
-        
-        println(newtime)
-        
-    }
-    */
-    
-  /*
-    
-    func saveTime(){
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext!
-        //managedContext.deletedObjects // Delete all objects in the manageContext.
-        /*let fetchRequest = NSFetchRequest(entityName:"TimeEntity")
-        fetchRequest.predicate = NSPredicate(
-            format: "time")
-        let count = managedContext.countForFetchRequest(fetchRequest, error: nil);
+        /*
+        let timeEntity = NSEntityDescription.entityForName("Time", inManagedObjectContext: coreDataStack.context)
+        let time = Time(entity: timeEntity!, insertIntoManagedObjectContext: coreDataStack.context)
+        time.lastUpdate = latestParseTime
         */
         
-        let fetchRequest = NSFetchRequest(entityName: "RateEntity")
-        
-        var error: NSError?
-
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
-        
-
-        
-       
-        
-        
-        let entity = NSEntityDescription.entityForName("TimeEntity", inManagedObjectContext: managedContext)
-        let time = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
-        
-        let date: NSDate = NSDate(timeIntervalSinceNow: NSTimeInterval(0))
-        
-        time.setValue(date, forKey: "time")
-        
-                if managedContext.save(&error){
-            println("saveTime Saved! \(date)")
-            latestParseTime = "\(date)"
-        } else {
-            println("Could not save \(error), \(error?.userInfo)")
-        }
-    }
-
-    func load() -> Int{
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        let managedContext = appDelegate.managedObjectContext!
-        
-        let fetchRequest = NSFetchRequest(entityName: "RateEntity")
-        
-        var error: NSError?
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
-        
-        if let results = fetchedResults {
-            println("load: Results \(results.count)")
-            for result in results as NSArray {
-                currencyDict[result.valueForKey("currency")! as String] = result.valueForKey("rate")! as? Double
-            }
-            
-            return results.count
-        } else {
-            println("Could not fetch \(error), \(error!.userInfo)")
-            return 0
-        }
-    }
-
-    func saveData(){
-        for var i = 0; i < currencyDict.count; ++i{
-            self.save(currencyArray[i], rate: currencyDict[currencyArray[i]]!)
-        }
-        println(currencyDict.count)
+        //println(currencyDict)
+        //println(currencyArray)
+        coreDataStack.saveContext()
     }
     
     
-
-    func save(currency: String, rate: Double){
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext!
-        //managedContext.deletedObjects // Delete all objects in the manageContext.
-        //println(managedContext.deletedObjects)
-        
-        let entity = NSEntityDescription.entityForName("RateEntity", inManagedObjectContext: managedContext)
-        
-        let currencyAndRate = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
-        
-        currencyAndRate.setValue(rate, forKey: "rate")
-        currencyAndRate.setValue(currency, forKey: "currency")
-        
-        var error: NSError?
-        if managedContext.save(&error){
-            //println("save: Saved!")
-        } else {
-            println("Could not save \(error), \(error?.userInfo)")
-        }
-    }
     
-    func deleteAllObjects(entityName: String){
-        
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        let managedContext = appDelegate.managedObjectContext!
-
-        let fetchRequest = NSFetchRequest(entityName: entityName)
-        
-        var error: NSError?
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
-        var managedObject: NSManagedObject!
-    }
-*/
-    
-    /*
-    - (void) deleteAllObjects: (NSString *) entityDescription  {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:entityDescription inManagedObjectContext:_managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    NSError *error;
-    NSArray *items = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
-    
-    
-    for (NSManagedObject *managedObject in items) {
-    [_managedObjectContext deleteObject:managedObject];
-    DLog(@"%@ object deleted",entityDescription);
-    }
-    if (![_managedObjectContext save:&error]) {
-    DLog(@"Error deleting %@ - error:%@",entityDescription,error);
-    }
-    
-    }
-    */
+    // MARK - Parse
     
     func parser(parser: NSXMLParser!,didStartElement elementName: String!, namespaceURI: String!, qualifiedName : String!, attributes attributeDict: NSDictionary!) {
         
@@ -273,7 +127,7 @@ class XMLParser:NSObject, NSXMLParserDelegate {
             
             var time = attributeDict["time"] as String!
             if let terre3 = time{
-                println(time)
+                latestParseTime = time
             }
         }
     }
