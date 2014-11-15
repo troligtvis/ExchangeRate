@@ -78,8 +78,14 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="widthClass=compact" ambiguous="YES" misplaced="YES">
-                                    <rect key="frame" x="210" y="148" width="174" height="29.5"/>
+                                    <rect key="frame" x="210" y="148" width="174" height="30"/>
                                 </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tid" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Xl-vv-fzJ">
+                                <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -90,9 +96,11 @@
                             <constraint firstItem="Lsz-wD-70g" firstAttribute="leading" secondItem="ncP-ek-JIF" secondAttribute="trailing" constant="20" id="7Gr-S4-WSU"/>
                             <constraint firstItem="DBa-As-uS2" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Lsz-wD-70g" secondAttribute="bottom" constant="42" id="AXq-gE-Q4F"/>
                             <constraint firstAttribute="centerY" secondItem="afD-Gx-PQx" secondAttribute="centerY" id="At4-xu-4kR"/>
+                            <constraint firstItem="1Xl-vv-fzJ" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="IDO-tW-hba"/>
                             <constraint firstItem="DBa-As-uS2" firstAttribute="leading" relation="lessThanOrEqual" secondItem="afD-Gx-PQx" secondAttribute="trailing" constant="40" id="VNf-b7-t7z"/>
                             <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="DBa-As-uS2" secondAttribute="trailing" constant="10" id="WqQ-Wt-SOw"/>
                             <constraint firstItem="DBa-As-uS2" firstAttribute="height" secondItem="afD-Gx-PQx" secondAttribute="height" id="Z3o-XO-t7s"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="1Xl-vv-fzJ" secondAttribute="bottom" constant="20" id="bBu-po-sPv"/>
                             <constraint firstItem="Lsz-wD-70g" firstAttribute="top" relation="lessThanOrEqual" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="80" id="d53-M8-cNA"/>
                             <constraint firstItem="ncP-ek-JIF" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="16" id="gv4-oj-7IB"/>
                             <constraint firstItem="DBa-As-uS2" firstAttribute="width" secondItem="afD-Gx-PQx" secondAttribute="width" id="hf5-ii-Oqo"/>
@@ -112,8 +120,11 @@
                                 <exclude reference="DBa-As-uS2"/>
                                 <exclude reference="JGX-jc-EVt"/>
                                 <exclude reference="Lsz-wD-70g"/>
+                                <exclude reference="1Xl-vv-fzJ"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="IDO-tW-hba"/>
+                                <exclude reference="bBu-po-sPv"/>
                                 <exclude reference="uJk-OI-e0E"/>
                                 <exclude reference="AXq-gE-Q4F"/>
                                 <exclude reference="VNf-b7-t7z"/>
@@ -142,8 +153,11 @@
                                 <include reference="DBa-As-uS2"/>
                                 <include reference="JGX-jc-EVt"/>
                                 <include reference="Lsz-wD-70g"/>
+                                <include reference="1Xl-vv-fzJ"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="IDO-tW-hba"/>
+                                <include reference="bBu-po-sPv"/>
                                 <exclude reference="uJk-OI-e0E"/>
                                 <include reference="AXq-gE-Q4F"/>
                                 <include reference="VNf-b7-t7z"/>
@@ -182,6 +196,7 @@
                         <outlet property="picker1" destination="afD-Gx-PQx" id="8uf-rJ-DpV"/>
                         <outlet property="picker2" destination="DBa-As-uS2" id="6aw-Xy-SLw"/>
                         <outlet property="textField" destination="ncP-ek-JIF" id="Kn7-Pt-efh"/>
+                        <outlet property="timeLabel" destination="1Xl-vv-fzJ" id="5zh-p7-Xle"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
@@ -191,7 +206,7 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1056" y="387.5"/>
+            <point key="canvasLocation" x="1056" y="387"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cAa-Lj-KQf">

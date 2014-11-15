@@ -2,8 +2,8 @@
 //  Reachability.swift
 //  ExchangeRate
 //
-//  Created by Kj Drougge on 2014-11-11.
-//  Copyright (c) 2014 kj. All rights reserved.
+//  Source:
+//  https://github.com/Isuru-Nanayakkara/Swift-Reachability/blob/master/Swift-Reachability/Reachability.swift
 //
 
 import Foundation

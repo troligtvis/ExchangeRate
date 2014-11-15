@@ -72,3 +72,41 @@ println("Could not save \(error), \(error?.userInfo)")
 //currencyMO.append(currencyAndRate)
 //}
 }
+
+
+/*
+for var i = 0; i < currencyDict.count; ++i{
+//save(currencyArray[i], rate: currencyDict[currencyArray[i]]!)
+xmlParser.saveData(currencyArray[i], rate: currencyDict[currencyArray[i]]!)
+}
+*/
+
+
+
+
+//size the components of the UIPickerView
+/*
+func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+return 36.0
+}
+
+func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+return 200
+}
+*/
+
+
+
+
+
+
+func parser(parser: NSXMLParser!, didEndElement elementName: String!, namespaceURI: String!, qualifiedName qName: String!) {
+//println("didEndElement: \(elementName)")
+
+}
+
+func parser(parser: NSXMLParser!, foundCharacters string: String!) {
+//println("foundCharacter: \(string)")
+}
+
+
