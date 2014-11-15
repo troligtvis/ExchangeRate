@@ -13,15 +13,13 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
    
     var coreDataStack: CoreDataStack!
     
-
-   
     var currencyDict: [String : Double] = [:]
     var currencyArray: [String] = []
     var xmlParser: XMLParser!
     var fromCurrency: Exchange!
     var toCurrency: Exchange!
     
-    //var time: [Time]! = []
+    var time: [Time]! = []
     var exchange: [Exchange]! = []
     
     var fetchTimeRequest: NSFetchRequest!
@@ -38,8 +36,8 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     @IBOutlet weak var textField: UITextField!
     
     @IBAction func refreshButton(sender: AnyObject) {
-        xmlParser.importXMLDataIfNeeded(coreDataStack, needReset: true)
-        self.asyncFetchFromContext()
+        //xmlParser.importXMLDataIfNeeded(coreDataStack, needReset: true)
+        //self.asyncFetchFromContext()
     }
     
     @IBAction func convertButton(sender: AnyObject) {
@@ -94,7 +92,7 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         
     }
     
-    /*
+    
     func asyncTimeFetchFromContext(){
         fetchTimeRequest = NSFetchRequest(entityName: "Time")
         
@@ -113,7 +111,7 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
             println("Could not fetch \(error), \(error!.userInfo)")
         }
     }
-*/
+
     
     func asyncFetchFromContext(){
         fetchRequest = NSFetchRequest(entityName: "Exchange")

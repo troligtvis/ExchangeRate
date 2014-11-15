@@ -16,14 +16,14 @@ class XMLParser:NSObject, NSXMLParserDelegate {
     var currencyArray: [String] = []
     
     var latestParseTime: String!
-    
-    
 
     
     func startXMLParser(coreDataStack: CoreDataStack){
         if(Reachability.isConnectedToNetwork()){ // Check if we have internet connection
             var url: String = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
             var urlToSend: NSURL = NSURL(string: url)!
+            
+            //currencyDict.removeAll()
             
             // Parse the XML
             var parser = NSXMLParser(contentsOfURL: urlToSend)
@@ -35,9 +35,8 @@ class XMLParser:NSObject, NSXMLParserDelegate {
             if success {
                 println("parse success!")
                 self.copyDictToArray()
-                importXMLData(coreDataStack)
-                //importXMLDataIfNeeded(coreDataStack, needReset: true)
-                //clearTimeIfNeeded(coreDataStack, needReset: false)
+                importXMLDataIfNeeded(coreDataStack, needReset: true)
+                importTimeIfNeeded(coreDataStack, needUpdate: true)
             } else {
                 println("parse failure!")
             }
@@ -49,13 +48,67 @@ class XMLParser:NSObject, NSXMLParserDelegate {
     func copyDictToArray(){
         //currencyArray.removeAll(keepCapacity: false)
         //currencyArray = []
+
+        //currencyArray.removeAll()
+        
         for currency in currencyDict.keys{
             currencyArray.append(currency)
         }
     }
     
+    func importTimeIfNeeded(coreDataStack: CoreDataStack, needUpdate: Bool){
+        println("importTimeIfNeeded!")
+        let fetchRequest = NSFetchRequest(entityName: "Time")
+        var error: NSError? = nil
         
-       
+        let results = coreDataStack.context.countForFetchRequest(fetchRequest, error: &error)
+        println("importTimeIfNeeder: \(results)")
+        
+        if results == 0 || needUpdate{
+            println("importTimeIfNeeded: \(results)")
+            var fetchError: NSError? = nil
+            
+            let results = coreDataStack.context.executeFetchRequest(fetchRequest, error: &fetchError)
+            
+            for object in results!{
+                let cube = object as Time
+                coreDataStack.context.deleteObject(cube)
+            }
+           
+            coreDataStack.saveContext()
+            if !needUpdate{
+                self.startXMLParser(coreDataStack)
+            } else {
+                importTime(coreDataStack)
+            }
+        } else {
+            var fetchError: NSError? = nil
+            let results = coreDataStack.context.executeFetchRequest(fetchRequest, error: &fetchError)
+            
+            var dateFormatter = NSDateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let dateNow: String! = dateFormatter.stringFromDate(NSDate())
+            
+            for object in results!{
+                println("else: \(results!.count)")
+                
+                let cube = object as Time
+                if !(cube.lastUpdate == dateNow){
+                    println("Date is due, going to update!")
+                    self.startXMLParser(coreDataStack)
+                }
+            }
+        }
+    }
+    
+    func importTime(coreDataStack: CoreDataStack){
+        let timeEntity = NSEntityDescription.entityForName("Time", inManagedObjectContext: coreDataStack.context)
+        let time = Time(entity: timeEntity!, insertIntoManagedObjectContext: coreDataStack.context)
+        time.lastUpdate = latestParseTime
+        
+        coreDataStack.saveContext()
+    }
+    
     func importXMLDataIfNeeded(coreDataStack: CoreDataStack, needReset: Bool){
         println("importXMLDataIfNeeded!")
         let fetchRequest = NSFetchRequest(entityName: "Exchange")
@@ -76,8 +129,6 @@ class XMLParser:NSObject, NSXMLParserDelegate {
             }
             
             coreDataStack.saveContext()
-            self.startXMLParser(coreDataStack)
-        } else {
             self.importXMLData(coreDataStack)
         }
     }
@@ -91,17 +142,8 @@ class XMLParser:NSObject, NSXMLParserDelegate {
             
             exchange.currency = currencyArray[i]
             exchange.rate = currencyDict[currencyArray[i]]!
-            //println("\(currencyArray[i]) andRate: \(currencyDict[currencyArray[i]])")
         }
         
-        /*
-        let timeEntity = NSEntityDescription.entityForName("Time", inManagedObjectContext: coreDataStack.context)
-        let time = Time(entity: timeEntity!, insertIntoManagedObjectContext: coreDataStack.context)
-        time.lastUpdate = latestParseTime
-        */
-        
-        //println(currencyDict)
-        //println(currencyArray)
         coreDataStack.saveContext()
     }
     

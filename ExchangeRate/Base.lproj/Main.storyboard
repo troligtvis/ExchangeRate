@@ -87,7 +87,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="222" y="151" width="174" height="30"/>
+                                    <rect key="frame" x="210" y="148" width="174" height="30"/>
                                 </variation>
                             </label>
                         </subviews>
@@ -145,16 +145,9 @@
                                 <exclude reference="Lsz-wD-70g"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="gv4-oj-7IB"/>
-                                <exclude reference="lIZ-JS-knT"/>
-                                <exclude reference="At4-xu-4kR"/>
-                                <exclude reference="lOB-e7-VKh"/>
-                                <exclude reference="wZw-xC-sEQ"/>
-                                <exclude reference="3jr-4z-2Wb"/>
-                                <exclude reference="6LA-mj-TdH"/>
-                                <exclude reference="7Gr-S4-WSU"/>
-                                <exclude reference="d53-M8-cNA"/>
-                                <exclude reference="pgd-Qy-RjL"/>
+                                <exclude reference="IDO-tW-hba"/>
+                                <exclude reference="bBu-po-sPv"/>
+                                <exclude reference="uJk-OI-e0E"/>
                                 <exclude reference="AXq-gE-Q4F"/>
                                 <exclude reference="GKo-7Z-eWZ"/>
                                 <exclude reference="VNf-b7-t7z"/>
@@ -164,11 +157,18 @@
                                 <exclude reference="hf5-ii-Oqo"/>
                                 <exclude reference="hzt-Ub-QGe"/>
                                 <exclude reference="jhN-XY-klA"/>
+                                <exclude reference="3jr-4z-2Wb"/>
+                                <exclude reference="6LA-mj-TdH"/>
+                                <exclude reference="7Gr-S4-WSU"/>
+                                <exclude reference="d53-M8-cNA"/>
+                                <exclude reference="pgd-Qy-RjL"/>
+                                <exclude reference="At4-xu-4kR"/>
+                                <exclude reference="lOB-e7-VKh"/>
+                                <exclude reference="wZw-xC-sEQ"/>
+                                <exclude reference="gv4-oj-7IB"/>
+                                <exclude reference="lIZ-JS-knT"/>
                                 <exclude reference="sQj-FY-b3g"/>
                                 <exclude reference="w9q-Mu-4Ps"/>
-                                <exclude reference="IDO-tW-hba"/>
-                                <exclude reference="bBu-po-sPv"/>
-                                <exclude reference="uJk-OI-e0E"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -181,16 +181,9 @@
                                 <include reference="Lsz-wD-70g"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="gv4-oj-7IB"/>
-                                <include reference="lIZ-JS-knT"/>
-                                <include reference="At4-xu-4kR"/>
-                                <include reference="lOB-e7-VKh"/>
-                                <include reference="wZw-xC-sEQ"/>
-                                <include reference="3jr-4z-2Wb"/>
-                                <include reference="6LA-mj-TdH"/>
-                                <include reference="7Gr-S4-WSU"/>
-                                <include reference="d53-M8-cNA"/>
-                                <include reference="pgd-Qy-RjL"/>
+                                <include reference="IDO-tW-hba"/>
+                                <include reference="bBu-po-sPv"/>
+                                <exclude reference="uJk-OI-e0E"/>
                                 <include reference="AXq-gE-Q4F"/>
                                 <include reference="GKo-7Z-eWZ"/>
                                 <include reference="VNf-b7-t7z"/>
@@ -200,11 +193,18 @@
                                 <include reference="hf5-ii-Oqo"/>
                                 <include reference="hzt-Ub-QGe"/>
                                 <exclude reference="jhN-XY-klA"/>
+                                <include reference="3jr-4z-2Wb"/>
+                                <include reference="6LA-mj-TdH"/>
+                                <include reference="7Gr-S4-WSU"/>
+                                <include reference="d53-M8-cNA"/>
+                                <include reference="pgd-Qy-RjL"/>
+                                <include reference="At4-xu-4kR"/>
+                                <include reference="lOB-e7-VKh"/>
+                                <include reference="wZw-xC-sEQ"/>
+                                <include reference="gv4-oj-7IB"/>
+                                <include reference="lIZ-JS-knT"/>
                                 <include reference="sQj-FY-b3g"/>
                                 <include reference="w9q-Mu-4Ps"/>
-                                <include reference="IDO-tW-hba"/>
-                                <include reference="bBu-po-sPv"/>
-                                <exclude reference="uJk-OI-e0E"/>
                             </mask>
                         </variation>
                         <connections>

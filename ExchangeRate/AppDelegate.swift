@@ -20,9 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         xmlParser = XMLParser()
-        xmlParser.importXMLDataIfNeeded(coreDataStack, needReset: false)
+        //xmlParser.importXMLDataIfNeeded(coreDataStack, needReset: false)
+        xmlParser.importTimeIfNeeded(coreDataStack, needUpdate: false)
         
-        //xmlParser.fetchTime(coreDataStack)
+        
+        
         
         let navController = window!.rootViewController as UINavigationController
         let viewController = navController.topViewController as ViewController
