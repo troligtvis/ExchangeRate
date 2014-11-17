@@ -21,9 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         xmlParser = XMLParser()
         
-        Async.background{
-            self.xmlParser.importTimeIfNeeded(self.coreDataStack, needUpdate: false)
-        }
+        
+        self.xmlParser.importTimeIfNeeded(self.coreDataStack, needUpdate: false)
+        
         
         
         

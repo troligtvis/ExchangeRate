@@ -83,10 +83,12 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     override func viewDidAppear(animated: Bool) {
         xmlParser = XMLParser()
     
+        self.asyncFetchFromContext()
+        
         let backgroundThread = Async.background {
             
             println("A: This is run on the \(qos_class_self().description) (expected \(qos_class_main().description))")
-            self.asyncFetchFromContext()
+            
             self.fetchTimeFromContext()
             
         }
@@ -146,8 +148,6 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
             println("Could not fetch \(error), \(error!.userInfo)")
         }
     }
-
-
     
     func createPicker(picker: UIPickerView, pickerId: Int){
         picker.delegate = self
