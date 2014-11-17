@@ -27,6 +27,8 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     var fetchRequest: NSFetchRequest!
     var asyncFetchRequest: NSAsynchronousFetchRequest!
     
+    var timeStr: String = "N/A"
+    
     @IBOutlet weak var bgLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     
@@ -45,7 +47,7 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         if exchange.count != 0 {
             var textFieldValueString = NSString(string: textField.text)
             var textFieldValueDouble = textFieldValueString.doubleValue
-        
+            
             var fromValue: Double!
             var toValue: Double!
             
@@ -66,7 +68,7 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
             
         } else {
             var titleOnAlert = "Error!"
-            var messageOnAlert = "There is no data. Try to refresh"
+            var messageOnAlert = "There is no data."
             
             var alert = UIAlertController(title: titleOnAlert, message: messageOnAlert, preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "ok", style: UIAlertActionStyle.Cancel, handler:nil))
@@ -80,35 +82,46 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     
     override func viewDidAppear(animated: Bool) {
         xmlParser = XMLParser()
+    
+        let backgroundThread = Async.background {
+            
+            println("A: This is run on the \(qos_class_self().description) (expected \(qos_class_main().description))")
+            self.asyncFetchFromContext()
+            self.fetchTimeFromContext()
+            
+        }
+            
+        let updateMainThread = backgroundThread.main {
+            println("B: This is run on the \(qos_class_self().description) (expected \(qos_class_main().description)), after the previous block")
         
-        picker1.delegate = self
-        picker1.dataSource = self
-        picker2.delegate = self
-        picker2.dataSource = self
-        
-        self.asyncFetchFromContext()
-
+            self.picker1.delegate = self
+            self.picker1.dataSource = self
+            self.picker2.delegate = self
+            self.picker2.dataSource = self
+            
+            self.picker1.reloadAllComponents()
+            self.picker2.reloadAllComponents()
+            
+            self.timeLabel.text = self.timeStr
+            }
+    
+        timeLabel.text = timeStr
         
         
     }
     
     
-    func asyncTimeFetchFromContext(){
+    
+    func fetchTimeFromContext(){
         fetchTimeRequest = NSFetchRequest(entityName: "Time")
         
-        asyncFetchTimeRequest = NSAsynchronousFetchRequest(fetchRequest: fetchTimeRequest){
-            [unowned self] (result: NSAsynchronousFetchResult!) -> Void in
-            
-            self.time = result.finalResult as [Time]
-        }
-        
         var error: NSError?
-        let results = coreDataStack.context.executeRequest(asyncFetchTimeRequest, error: &error)
+        let result = coreDataStack.context.executeFetchRequest(fetchTimeRequest,
+            error: &error) as [Time]?
         
-        if let persistentStoreResults = results{
-            
-        } else {
-            println("Could not fetch \(error), \(error!.userInfo)")
+        if let myTime = result {
+            println("asyncFetchTime: \(myTime.count)")
+            timeStr = myTime[0].lastUpdate
         }
     }
 
@@ -120,8 +133,8 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
             [unowned self] (result: NSAsynchronousFetchResult!) -> Void in
             
             self.exchange = result.finalResult as [Exchange]
-            self.picker1.reloadAllComponents()
-            self.picker2.reloadAllComponents()
+            //self.picker1.reloadAllComponents()
+            //self.picker2.reloadAllComponents()
         }
         
         var error: NSError?

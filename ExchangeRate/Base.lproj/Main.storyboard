@@ -56,7 +56,8 @@
                                         <exclude reference="d3m-rL-LQu"/>
                                     </mask>
                                 </variation>
-                                <variation key="widthClass=compact">
+                                <variation key="widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="219" y="219" width="181" height="162"/>
                                     <mask key="constraints">
                                         <include reference="Pav-hJ-Wn4"/>
                                         <include reference="d3m-rL-LQu"/>
@@ -87,7 +88,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="210" y="148" width="174" height="30"/>
+                                    <rect key="frame" x="210" y="151" width="174" height="30"/>
                                 </variation>
                             </label>
                         </subviews>

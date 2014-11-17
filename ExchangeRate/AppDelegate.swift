@@ -20,9 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         xmlParser = XMLParser()
-        //xmlParser.importXMLDataIfNeeded(coreDataStack, needReset: false)
-        xmlParser.importTimeIfNeeded(coreDataStack, needUpdate: false)
         
+        Async.background{
+            self.xmlParser.importTimeIfNeeded(self.coreDataStack, needUpdate: false)
+        }
         
         
         

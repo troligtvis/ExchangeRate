@@ -76,9 +76,14 @@ class XMLParser:NSObject, NSXMLParserDelegate {
             }
            
             coreDataStack.saveContext()
+            
             if !needUpdate{
                 self.startXMLParser(coreDataStack)
             } else {
+                var dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "yyyy-MM-dd"
+                let dateNow: String! = dateFormatter.stringFromDate(NSDate())
+                latestParseTime = dateNow
                 importTime(coreDataStack)
             }
         } else {
@@ -93,9 +98,14 @@ class XMLParser:NSObject, NSXMLParserDelegate {
                 println("else: \(results!.count)")
                 
                 let cube = object as Time
+                println("Cube.lastUpdate: \(cube.lastUpdate)")
                 if !(cube.lastUpdate == dateNow){
                     println("Date is due, going to update!")
+                    
                     self.startXMLParser(coreDataStack)
+                    self.importTime(coreDataStack)
+                } else {
+                    println("Samma datum")
                 }
             }
         }
@@ -105,6 +115,8 @@ class XMLParser:NSObject, NSXMLParserDelegate {
         let timeEntity = NSEntityDescription.entityForName("Time", inManagedObjectContext: coreDataStack.context)
         let time = Time(entity: timeEntity!, insertIntoManagedObjectContext: coreDataStack.context)
         time.lastUpdate = latestParseTime
+        println("latestParseTime: \(latestParseTime)")
+        
         
         coreDataStack.saveContext()
     }
