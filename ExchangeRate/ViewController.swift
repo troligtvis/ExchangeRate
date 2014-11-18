@@ -39,7 +39,20 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     
     @IBAction func refreshButton(sender: AnyObject) {
         //xmlParser.importXMLDataIfNeeded(coreDataStack, needReset: true)
-        //self.asyncFetchFromContext()
+        /*xmlParser.importTimeIfNeeded(coreDataStack, needUpdate: true)
+        self.asyncFetchFromContext()
+        Async.background{
+            
+            self.fetchTimeFromContext()
+            }.main{
+                self.picker1.reloadAllComponents()
+                self.picker2.reloadAllComponents()
+                
+                
+                self.timeLabel.text = self.timeStr
+        }
+        self.picker1.reloadAllComponents()
+        self.picker2.reloadAllComponents()*/
     }
     
     @IBAction func convertButton(sender: AnyObject) {
@@ -64,7 +77,8 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
             }
             
             // Change to 2 decimals
-            convertedValue.text = String(format:"%f", calculateRate(fromValue, toValue))
+            //let someDoubleFormat = ".2"
+            convertedValue.text = String(format:"%.2f", calculateRate(fromValue, toValue))
             
         } else {
             var titleOnAlert = "Error!"
@@ -80,17 +94,16 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         textField.resignFirstResponder()
     }
     
+
     override func viewDidAppear(animated: Bool) {
         xmlParser = XMLParser()
     
         self.asyncFetchFromContext()
         
         let backgroundThread = Async.background {
-            
             println("A: This is run on the \(qos_class_self().description) (expected \(qos_class_main().description))")
             
             self.fetchTimeFromContext()
-            
         }
             
         let updateMainThread = backgroundThread.main {
@@ -105,7 +118,9 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
             self.picker2.reloadAllComponents()
             
             self.timeLabel.text = self.timeStr
-            }
+        }
+        
+        println("Först")
     
         timeLabel.text = timeStr
         

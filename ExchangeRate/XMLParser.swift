@@ -30,16 +30,21 @@ class XMLParser:NSObject, NSXMLParserDelegate {
             parser!.delegate = self
             
             // Start the event-driven parsing
-            var success: Bool = parser!.parse()
             
-            if success {
-                println("parse success!")
-                self.copyDictToArray()
-                importXMLDataIfNeeded(coreDataStack, needReset: true)
-                importTimeIfNeeded(coreDataStack, needUpdate: true)
-            } else {
-                println("parse failure!")
-            }
+            //let background = Async.background{
+                
+                var success: Bool = parser!.parse()
+            //}.main{
+                if success {
+                    println("parse success!")
+                    self.copyDictToArray()
+                    self.importXMLDataIfNeeded(coreDataStack, needReset: true)
+                    //self.importTimeIfNeeded(coreDataStack, needUpdate: true)
+                } else {
+                    println("parse failure!")
+                }
+             // }
+                
         } else {
             println("No internetz!")
         }
@@ -70,21 +75,34 @@ class XMLParser:NSObject, NSXMLParserDelegate {
             
             let results = coreDataStack.context.executeFetchRequest(fetchRequest, error: &fetchError)
             
-            for object in results!{
-                let cube = object as Time
-                coreDataStack.context.deleteObject(cube)
-            }
-           
-            coreDataStack.saveContext()
-            
             if !needUpdate{
+                
+                for object in results!{
+                    let cube = object as Time
+                    coreDataStack.context.deleteObject(cube)
+                }
+           
+                coreDataStack.saveContext()
+            
+            
                 self.startXMLParser(coreDataStack)
+                self.importTime(coreDataStack)
             } else {
+                
                 var dateFormatter = NSDateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 let dateNow: String! = dateFormatter.stringFromDate(NSDate())
                 latestParseTime = dateNow
-                importTime(coreDataStack)
+                self.startXMLParser(coreDataStack)
+                
+                for object in results!{
+                    let cube = object as Time
+                    coreDataStack.context.deleteObject(cube)
+                }
+                
+                coreDataStack.saveContext()
+                
+                self.importTime(coreDataStack)
             }
         } else {
             var fetchError: NSError? = nil
@@ -130,7 +148,9 @@ class XMLParser:NSObject, NSXMLParserDelegate {
         println("importXMLDataIfNeeder: \(results)")
         
         if results == 0 || needReset{
-            println("importXMLDataIfNeeded: \(results)")
+            Async.background {
+                println("This run, thats it")
+                        println("importXMLDataIfNeeded: \(results)")
             var fetchError: NSError? = nil
             
             let results = coreDataStack.context.executeFetchRequest(fetchRequest, error: &fetchError)
@@ -142,6 +162,10 @@ class XMLParser:NSObject, NSXMLParserDelegate {
             
             coreDataStack.saveContext()
             self.importXMLData(coreDataStack)
+                
+            println("DONE?")
+            }
+
         }
     }
     

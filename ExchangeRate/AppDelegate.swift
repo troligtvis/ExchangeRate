@@ -19,12 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        
+        
         xmlParser = XMLParser()
         
         
-        self.xmlParser.importTimeIfNeeded(self.coreDataStack, needUpdate: false)
         
-        
+        xmlParser.importTimeIfNeeded(self.coreDataStack, needUpdate: false)
         
         
         let navController = window!.rootViewController as UINavigationController
