@@ -129,6 +129,7 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
         let time = Time(entity: timeEntity!, insertIntoManagedObjectContext: coreDataStack.context)
         
         time.multiplierUpdate = oldMultiplier
+        println("\(latestParseTime)")
         time.lastUpdate = latestParseTime
         
         coreDataStack.saveContext()
@@ -137,7 +138,8 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
     func updateTime(coreDataStack: CoreDataStack, multiplier: NSNumber){
         println("updateTime")
         
-        var oldLastUpdate: NSDate!
+        var oldLastUpdate: NSDate! = NSDate(timeIntervalSince1970: NSTimeInterval(0))
+        println("\(oldLastUpdate)")
         
         let fetchRequest = NSFetchRequest(entityName: "Time")
         var fetchError: NSError? = nil
@@ -186,7 +188,7 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
             for object in results!{
                 let cube = object as Time
                 if compareTime(cube.lastUpdate, multiplier: cube.multiplierUpdate){
-                    println("Date is due, going to update!")
+                    //println("Date is due, going to update!")
                     return (false, NSDate())
                 }
                 oldDate = cube.lastUpdate
@@ -204,6 +206,8 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
         let interval = dateNow.timeIntervalSinceDate(dateOld)
         
         var newTime = ( interval / 60 ) / 60
+        
+        println("dateOld: \(dateOld) dateNow: \(dateNow) newTime: \(newTime)")
         
         if (Int(newTime) > (24 * multiplier.integerValue)){
             return true
@@ -244,6 +248,8 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
             } else {
                 println("parse failure!")
             }
+        } else {
+            println("No internetz")
         }
     }
     
@@ -271,6 +277,9 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
                 var dateFormatter = NSDateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 latestParseTime = dateFormatter.dateFromString(time)!
+                var newTime = latestParseTime.dateByAddingTimeInterval(3600*13)
+                latestParseTime = newTime
+                println("After: \(newTime)")
             }
         }
     }

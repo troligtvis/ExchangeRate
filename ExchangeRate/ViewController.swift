@@ -132,9 +132,10 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
                 self.picker1.reloadAllComponents()
                 self.picker2.reloadAllComponents()
                 
-                
-                let dateParse: String! = dateFormatter.stringFromDate(self.time[0].lastUpdate)
-                self.timeLabel.text = dateParse //self.timeStr
+                if self.time.count != 0 {
+                    let dateParse: String! = dateFormatter.stringFromDate(self.time[0].lastUpdate)
+                    self.timeLabel.text = dateParse
+                }
         }
         
         timeLabel.text = timeStr
