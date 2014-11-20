@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2B2696101A1A4F2E0033A8DB /* Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B26960F1A1A4F2E0033A8DB /* Async.swift */; };
-		2B8E30271A175BF50005A55F /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8E30261A175BF50005A55F /* Exchange.swift */; };
-		2B8E30291A175BF50005A55F /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8E30281A175BF50005A55F /* Time.swift */; };
 		2B8E302B1A175C3F0005A55F /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B8E302A1A175C3F0005A55F /* CoreDataStack.swift */; };
 		2B8E302D1A17A8AE0005A55F /* XMLParserKladd in Resources */ = {isa = PBXBuildFile; fileRef = 2B8E302C1A17A8AE0005A55F /* XMLParserKladd */; };
 		2B8E302F1A17BF340005A55F /* TIME in Resources */ = {isa = PBXBuildFile; fileRef = 2B8E302E1A17BF340005A55F /* TIME */; };
@@ -24,6 +22,9 @@
 		2BA0A1F01A12426C0086CA40 /* Calculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA0A1EF1A12426C0086CA40 /* Calculate.swift */; };
 		2BA0A1F21A1254000086CA40 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA0A1F11A1254000086CA40 /* Reachability.swift */; };
 		2BA0A1F61A12BF190086CA40 /* Kladd in Resources */ = {isa = PBXBuildFile; fileRef = 2BA0A1F51A12BF190086CA40 /* Kladd */; };
+		2BC500551A1D358800271114 /* XMLParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC500541A1D358800271114 /* XMLParserTest.swift */; };
+		2BC500571A1D416800271114 /* Time.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC500561A1D416800271114 /* Time.swift */; };
+		2BC500591A1D416800271114 /* Exchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC500581A1D416800271114 /* Exchange.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,8 +39,6 @@
 
 /* Begin PBXFileReference section */
 		2B26960F1A1A4F2E0033A8DB /* Async.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Async.swift; sourceTree = "<group>"; };
-		2B8E30261A175BF50005A55F /* Exchange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
-		2B8E30281A175BF50005A55F /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
 		2B8E302A1A175C3F0005A55F /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		2B8E302C1A17A8AE0005A55F /* XMLParserKladd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = XMLParserKladd; sourceTree = "<group>"; };
 		2B8E302E1A17BF340005A55F /* TIME */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TIME; path = ../../HitList/TIME; sourceTree = "<group>"; };
@@ -58,6 +57,9 @@
 		2BA0A1EF1A12426C0086CA40 /* Calculate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calculate.swift; sourceTree = "<group>"; };
 		2BA0A1F11A1254000086CA40 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		2BA0A1F51A12BF190086CA40 /* Kladd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Kladd; sourceTree = "<group>"; };
+		2BC500541A1D358800271114 /* XMLParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLParserTest.swift; sourceTree = "<group>"; };
+		2BC500561A1D416800271114 /* Time.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Time.swift; sourceTree = "<group>"; };
+		2BC500581A1D416800271114 /* Exchange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Exchange.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,13 +107,14 @@
 				2B98C28E1A10C39A00AAB0EE /* ViewController.swift */,
 				2BA0A1F11A1254000086CA40 /* Reachability.swift */,
 				2B98C2B41A11149B00AAB0EE /* XMLParser.swift */,
+				2BC500541A1D358800271114 /* XMLParserTest.swift */,
 				2B98C2901A10C39A00AAB0EE /* Main.storyboard */,
 				2B98C2931A10C39A00AAB0EE /* Images.xcassets */,
 				2B98C2951A10C39A00AAB0EE /* LaunchScreen.xib */,
 				2B8E302A1A175C3F0005A55F /* CoreDataStack.swift */,
 				2B98C28B1A10C39A00AAB0EE /* ExchangeRate.xcdatamodeld */,
-				2B8E30281A175BF50005A55F /* Time.swift */,
-				2B8E30261A175BF50005A55F /* Exchange.swift */,
+				2BC500581A1D416800271114 /* Exchange.swift */,
+				2BC500561A1D416800271114 /* Time.swift */,
 				2B98C2871A10C39900AAB0EE /* Supporting Files */,
 				2BA0A1F51A12BF190086CA40 /* Kladd */,
 				2B8E302E1A17BF340005A55F /* TIME */,
@@ -251,14 +254,15 @@
 			files = (
 				2B98C2B51A11149B00AAB0EE /* XMLParser.swift in Sources */,
 				2B98C28F1A10C39A00AAB0EE /* ViewController.swift in Sources */,
+				2BC500571A1D416800271114 /* Time.swift in Sources */,
 				2BA0A1F21A1254000086CA40 /* Reachability.swift in Sources */,
 				2B8E302B1A175C3F0005A55F /* CoreDataStack.swift in Sources */,
+				2BC500591A1D416800271114 /* Exchange.swift in Sources */,
+				2BC500551A1D358800271114 /* XMLParserTest.swift in Sources */,
 				2B98C28D1A10C39A00AAB0EE /* ExchangeRate.xcdatamodeld in Sources */,
-				2B8E30291A175BF50005A55F /* Time.swift in Sources */,
 				2BA0A1F01A12426C0086CA40 /* Calculate.swift in Sources */,
 				2B98C28A1A10C39900AAB0EE /* AppDelegate.swift in Sources */,
 				2B2696101A1A4F2E0033A8DB /* Async.swift in Sources */,
-				2B8E30271A175BF50005A55F /* Exchange.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

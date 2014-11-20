@@ -14,23 +14,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     lazy var coreDataStack = CoreDataStack()
-    var xmlParser: XMLParser!
+    var xmlParser: XMLParserTest!
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
         
         
-        xmlParser = XMLParser()
+        xmlParser = XMLParserTest()
         
         
         
-        xmlParser.importTimeIfNeeded(self.coreDataStack, needUpdate: false)
+        //xmlParser.importTimeIfNeeded(self.coreDataStack, needUpdate: false)
         
         
         let navController = window!.rootViewController as UINavigationController
         let viewController = navController.topViewController as ViewController
         viewController.coreDataStack = coreDataStack
+        viewController.xmlParser = xmlParser
+        //viewController.exchange = xmlParser.exchange
         
         return true
     }

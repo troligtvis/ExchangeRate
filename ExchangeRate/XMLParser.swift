@@ -16,7 +16,7 @@ class XMLParser:NSObject, NSXMLParserDelegate {
     var currencyArray: [String] = []
     
     var latestParseTime: String!
-
+    
     
     func startXMLParser(coreDataStack: CoreDataStack){
         if(Reachability.isConnectedToNetwork()){ // Check if we have internet connection
@@ -30,21 +30,22 @@ class XMLParser:NSObject, NSXMLParserDelegate {
             parser!.delegate = self
             
             // Start the event-driven parsing
+        
             
-            //let background = Async.background{
-                
-                var success: Bool = parser!.parse()
-            //}.main{
-                if success {
-                    println("parse success!")
-                    self.copyDictToArray()
-                    self.importXMLDataIfNeeded(coreDataStack, needReset: true)
-                    //self.importTimeIfNeeded(coreDataStack, needUpdate: true)
-                } else {
-                    println("parse failure!")
-                }
-             // }
-                
+            var success: Bool = parser!.parse()
+            
+            if success {
+                println("parse success!")
+                currencyDict["EUR"] = 1.0
+                self.copyDictToArray()
+                self.importXMLDataIfNeeded(coreDataStack, needReset: true)
+                self.asyncFetchFromContext(coreDataStack)
+                //self.importTimeIfNeeded(coreDataStack, needUpdate: true)
+            } else {
+                println("parse failure!")
+            }
+            // }
+            
         } else {
             println("No internetz!")
         }
@@ -53,7 +54,7 @@ class XMLParser:NSObject, NSXMLParserDelegate {
     func copyDictToArray(){
         //currencyArray.removeAll(keepCapacity: false)
         //currencyArray = []
-
+        
         //currencyArray.removeAll()
         
         for currency in currencyDict.keys{
@@ -81,10 +82,9 @@ class XMLParser:NSObject, NSXMLParserDelegate {
                     let cube = object as Time
                     coreDataStack.context.deleteObject(cube)
                 }
-           
+                
                 coreDataStack.saveContext()
-            
-            
+                
                 self.startXMLParser(coreDataStack)
                 self.importTime(coreDataStack)
             } else {
@@ -122,7 +122,9 @@ class XMLParser:NSObject, NSXMLParserDelegate {
                     
                     self.startXMLParser(coreDataStack)
                     self.importTime(coreDataStack)
+                    self.asyncFetchFromContext(coreDataStack)
                 } else {
+                    self.asyncFetchFromContext(coreDataStack)
                     println("Samma datum")
                 }
             }
@@ -132,7 +134,7 @@ class XMLParser:NSObject, NSXMLParserDelegate {
     func importTime(coreDataStack: CoreDataStack){
         let timeEntity = NSEntityDescription.entityForName("Time", inManagedObjectContext: coreDataStack.context)
         let time = Time(entity: timeEntity!, insertIntoManagedObjectContext: coreDataStack.context)
-        time.lastUpdate = latestParseTime
+        //time.lastUpdate = latestParseTime
         println("latestParseTime: \(latestParseTime)")
         
         
@@ -148,24 +150,23 @@ class XMLParser:NSObject, NSXMLParserDelegate {
         println("importXMLDataIfNeeder: \(results)")
         
         if results == 0 || needReset{
-            Async.background {
+            //Async.background {
                 println("This run, thats it")
-                        println("importXMLDataIfNeeded: \(results)")
-            var fetchError: NSError? = nil
-            
-            let results = coreDataStack.context.executeFetchRequest(fetchRequest, error: &fetchError)
-            
-            for object in results!{
-                let cube = object as Exchange
-                coreDataStack.context.deleteObject(cube)
-            }
-            
-            coreDataStack.saveContext()
-            self.importXMLData(coreDataStack)
+                println("importXMLDataIfNeeded: \(results)")
+                var fetchError: NSError? = nil
                 
-            println("DONE?")
-            }
-
+                let results = coreDataStack.context.executeFetchRequest(fetchRequest, error: &fetchError)
+                
+                for object in results!{
+                    let cube = object as Exchange
+                    coreDataStack.context.deleteObject(cube)
+                }
+                
+                coreDataStack.saveContext()
+                self.importXMLData(coreDataStack)
+                
+                println("DONE?")
+            //}
         }
     }
     
@@ -183,6 +184,37 @@ class XMLParser:NSObject, NSXMLParserDelegate {
         coreDataStack.saveContext()
     }
     
+    
+    var fetchRequest: NSFetchRequest!
+    var asyncFetchRequest: NSAsynchronousFetchRequest!
+    var exchange: [Exchange]! = []
+    
+    func asyncFetchFromContext(coreDataStack: CoreDataStack){
+        fetchRequest = NSFetchRequest(entityName: "Exchange")
+        
+        asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest){
+            [unowned self] (result: NSAsynchronousFetchResult!) -> Void in
+            
+            self.exchange = result.finalResult as [Exchange]
+            //self.picker1.reloadAllComponents()
+            //self.picker2.reloadAllComponents()
+        }
+        
+        var error: NSError?
+        let results = coreDataStack.context.executeRequest(asyncFetchRequest, error: &error)
+        
+        if let persistentStoreResults = results{
+            
+        } else {
+            println("Could not fetch \(error), \(error!.userInfo)")
+        }
+    }
+
+    
+    
+    func compareDate(){
+        
+    }
     
     
     // MARK - Parse

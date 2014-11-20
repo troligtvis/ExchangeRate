@@ -10,22 +10,16 @@ import UIKit
 import CoreData
 
 class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDelegate {
-   
+    
     var coreDataStack: CoreDataStack!
     
-    var currencyDict: [String : Double] = [:]
-    var currencyArray: [String] = []
-    var xmlParser: XMLParser!
+    var xmlParser: XMLParserTest!
+    
     var fromCurrency: Exchange!
     var toCurrency: Exchange!
     
-    var time: [Time]! = []
-    var exchange: [Exchange]! = []
-    
-    var fetchTimeRequest: NSFetchRequest!
-    var asyncFetchTimeRequest: NSAsynchronousFetchRequest!
-    var fetchRequest: NSFetchRequest!
-    var asyncFetchRequest: NSAsynchronousFetchRequest!
+    var time: [Time]!
+    var exchange: [Exchange]!
     
     var timeStr: String = "N/A"
     
@@ -38,21 +32,43 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     @IBOutlet weak var textField: UITextField!
     
     @IBAction func refreshButton(sender: AnyObject) {
-        //xmlParser.importXMLDataIfNeeded(coreDataStack, needReset: true)
-        /*xmlParser.importTimeIfNeeded(coreDataStack, needUpdate: true)
-        self.asyncFetchFromContext()
+        var titleOnAlert = "Update"
+        var messageOnAlert = "When do you want the updates?"
+        
+        var alert = UIAlertController(title: titleOnAlert, message: messageOnAlert, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let oneAction = UIAlertAction(title: "24hr", style: .Default, handler: changeUpdateTime)
+        let twoAction = UIAlertAction(title: "48hr", style: .Default, handler: changeUpdateTime)
+        let threeAction = UIAlertAction(title: "78hr", style: .Default, handler: changeUpdateTime)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .Destructive, handler: nil)
+        alert.addAction(oneAction)
+        alert.addAction(twoAction)
+        alert.addAction(threeAction)
+        alert.addAction(cancelAction)
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    
+
+    func changeUpdateTime(alert: UIAlertAction!){
         Async.background{
-            
-            self.fetchTimeFromContext()
-            }.main{
-                self.picker1.reloadAllComponents()
-                self.picker2.reloadAllComponents()
-                
-                
-                self.timeLabel.text = self.timeStr
+            switch(alert.title){
+                case "24hr":
+                    self.xmlParser.updateTime(self.coreDataStack, multiplier: 1)
+                    break;
+                case "48hr":
+                    self.xmlParser.updateTime(self.coreDataStack, multiplier: 2)
+                    break;
+                case "78hr":
+                    self.xmlParser.updateTime(self.coreDataStack, multiplier: 3)
+                    break;
+            default:
+                println("Somethings wong")
+                break;
+            }
         }
-        self.picker1.reloadAllComponents()
-        self.picker2.reloadAllComponents()*/
+        
     }
     
     @IBAction func convertButton(sender: AnyObject) {
@@ -76,8 +92,6 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
                 toValue = exchange[0].rate.doubleValue
             }
             
-            // Change to 2 decimals
-            //let someDoubleFormat = ".2"
             convertedValue.text = String(format:"%.2f", calculateRate(fromValue, toValue))
             
         } else {
@@ -94,86 +108,36 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         textField.resignFirstResponder()
     }
     
-
     override func viewDidAppear(animated: Bool) {
-        xmlParser = XMLParser()
-    
-        self.asyncFetchFromContext()
-        
-        let backgroundThread = Async.background {
-            println("A: This is run on the \(qos_class_self().description) (expected \(qos_class_main().description))")
-            
-            self.fetchTimeFromContext()
-        }
-            
-        let updateMainThread = backgroundThread.main {
-            println("B: This is run on the \(qos_class_self().description) (expected \(qos_class_main().description)), after the previous block")
-        
-            self.picker1.delegate = self
-            self.picker1.dataSource = self
-            self.picker2.delegate = self
-            self.picker2.dataSource = self
-            
-            self.picker1.reloadAllComponents()
-            self.picker2.reloadAllComponents()
-            
-            self.timeLabel.text = self.timeStr
-        }
-        
-        println("Först")
-    
-        timeLabel.text = timeStr
-        
-        
-    }
-    
-    
-    
-    func fetchTimeFromContext(){
-        fetchTimeRequest = NSFetchRequest(entityName: "Time")
-        
-        var error: NSError?
-        let result = coreDataStack.context.executeFetchRequest(fetchTimeRequest,
-            error: &error) as [Time]?
-        
-        if let myTime = result {
-            println("asyncFetchTime: \(myTime.count)")
-            timeStr = myTime[0].lastUpdate
-        }
-    }
 
-    
-    func asyncFetchFromContext(){
-        fetchRequest = NSFetchRequest(entityName: "Exchange")
+        var dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
         
-        asyncFetchRequest = NSAsynchronousFetchRequest(fetchRequest: fetchRequest){
-            [unowned self] (result: NSAsynchronousFetchResult!) -> Void in
+        Async.background {
+            //println("A: This is run on the \(qos_class_self().description) (expected \(qos_class_main().description))")
             
-            self.exchange = result.finalResult as [Exchange]
-            //self.picker1.reloadAllComponents()
-            //self.picker2.reloadAllComponents()
-        }
-        
-        var error: NSError?
-        let results = coreDataStack.context.executeRequest(asyncFetchRequest, error: &error)
-        
-        if let persistentStoreResults = results{
+            self.xmlParser.checkTime(self.coreDataStack)
             
-        } else {
-            println("Could not fetch \(error), \(error!.userInfo)")
+            }.main {
+                //println("B: This is run on the \(qos_class_self().description) (expected \(qos_class_main().description)), after the previous block")
+                
+                self.exchange = self.xmlParser.exchange
+                self.time = self.xmlParser.time
+                
+                self.picker1.delegate = self
+                self.picker1.dataSource = self
+                self.picker2.delegate = self
+                self.picker2.dataSource = self
+                
+                self.picker1.reloadAllComponents()
+                self.picker2.reloadAllComponents()
+                
+                
+                let dateParse: String! = dateFormatter.stringFromDate(self.time[0].lastUpdate)
+                self.timeLabel.text = dateParse //self.timeStr
         }
-    }
-    
-    func createPicker(picker: UIPickerView, pickerId: Int){
-        picker.delegate = self
-        picker.dataSource = self
-        picker.selectRow(0, inComponent: 0, animated: true)
         
-        if pickerId == 1 {
-            fromCurrency = exchange[0]
-        } else {
-            toCurrency = exchange[0]
-        }
+        timeLabel.text = timeStr
     }
     
     override func didReceiveMemoryWarning() {
@@ -193,15 +157,22 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     
     //MARK: Delegates
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String! {
-        return exchange[row].currency
+        if exchange.count != 0{
+            return exchange[row].currency
+        } else{
+            return "Empty"
+        }
     }
     
     func pickerView(pickerView: UIPickerView!, didSelectRow row: Int, inComponent component: Int)
     {
-        if pickerView.isEqual(picker1){ // Check if the right pickerviewn.
-            fromCurrency = exchange[row]
-        } else if pickerView.isEqual(picker2) {
-            toCurrency = exchange[row]
+        if exchange.count != 0{
+            if pickerView.isEqual(picker1){ // Check if the right pickerviewn.
+                
+                fromCurrency = exchange[row]
+            } else if pickerView.isEqual(picker2) {
+                toCurrency = exchange[row]
+            }
         }
     }
     
@@ -218,9 +189,7 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         } else {
             pickerLabel!.text = "Empty"
         }
-
-        
-        
+    
         return pickerLabel
     }
 }
