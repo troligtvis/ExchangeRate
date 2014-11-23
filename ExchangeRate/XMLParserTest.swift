@@ -18,7 +18,6 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
     var fetchRequest: NSFetchRequest!
     var asyncFetchRequest: NSAsynchronousFetchRequest!
     var exchange: [Exchange]! = []
-    
     var time: [Time]! = []
     
     
@@ -40,6 +39,7 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
         let fetchRequest = NSFetchRequest(entityName: "Exchange")
         var error: NSError? = nil
         
+        // Count the objects found in the context from the fetch request
         let results = coreDataStack.context.countForFetchRequest(fetchRequest, error: &error)
         
         if results != 0 {
@@ -47,6 +47,7 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
             
             let results = coreDataStack.context.executeFetchRequest(fetchRequest, error: &fetchError)
             
+            // Iterate trhough the results from the fetch and delete all the objects
             for object in results!{
                 let cube = object as Exchange
                 coreDataStack.context.deleteObject(cube)
@@ -56,6 +57,7 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
         }
         
         for var i = 0; i < currencyDict.count; ++i{
+            // Create an entity object and import data to the context.
             let exchangeEntity = NSEntityDescription.entityForName("Exchange", inManagedObjectContext: coreDataStack.context)
             
             let exchange = Exchange(entity: exchangeEntity!, insertIntoManagedObjectContext: coreDataStack.context)
@@ -67,6 +69,7 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
         coreDataStack.saveContext()
     }
     
+    // Doesn't use this function.
     func loadDataAsync(coreDataStack: CoreDataStack){
         println("loadDataAsync")
         
@@ -118,6 +121,8 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
             
             for object in results!{
                 let cube = object as Time
+                
+                // save the old multiplier value before the time data gets deleted
                 oldMultiplier = cube.multiplierUpdate
                 coreDataStack.context.deleteObject(cube)
             }
@@ -129,7 +134,7 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
         let time = Time(entity: timeEntity!, insertIntoManagedObjectContext: coreDataStack.context)
         
         time.multiplierUpdate = oldMultiplier
-        println("\(latestParseTime)")
+        //println("\(latestParseTime)")
         time.lastUpdate = latestParseTime
         
         coreDataStack.saveContext()
@@ -147,8 +152,9 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
         
         for object in results!{
             let cube = object as Time
+            
+            // save lastUpdate in a variabel before it gets deleted
             oldLastUpdate = cube.lastUpdate
-            println("oldMulti: \(cube.multiplierUpdate)")
             coreDataStack.context.deleteObject(cube)
         }
         
@@ -207,8 +213,10 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
         
         var newTime = ( interval / 60 ) / 60
         
-        println("dateOld: \(dateOld) dateNow: \(dateNow) newTime: \(newTime)")
+        //println("dateOld: \(dateOld) dateNow: \(dateNow) interval: \(newTime) multiplier: \(multiplier)")
         
+        
+        // check if the interval of the times is over 24 * multiplier.
         if (Int(newTime) > (24 * multiplier.integerValue)){
             return true
         } else {
@@ -263,6 +271,8 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
         if elementName == "Cube"{
             var currency =  attributeDict["currency"] as String!
             var rate =  attributeDict["rate"] as String!
+            var time = attributeDict["time"] as String!
+            
             if let terre = currency{
                 temp = currency
             }
@@ -272,14 +282,16 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
                 currencyDict[temp] = dbl
             }
             
-            var time = attributeDict["time"] as String!
             if let terre3 = time{
                 var dateFormatter = NSDateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 latestParseTime = dateFormatter.dateFromString(time)!
+                
+                // it is possible to use the right timezone, but this is a workaround.
                 var newTime = latestParseTime.dateByAddingTimeInterval(3600*13)
+                
                 latestParseTime = newTime
-                println("After: \(newTime)")
+                //println("After: \(newTime)")
             }
         }
     }

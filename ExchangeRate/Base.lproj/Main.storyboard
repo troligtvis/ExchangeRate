@@ -67,6 +67,7 @@
                             <constraint firstAttribute="centerY" secondItem="GnL-3r-Oab" secondAttribute="centerY" id="668-OX-q3H"/>
                             <constraint firstAttribute="trailing" secondItem="GnL-3r-Oab" secondAttribute="trailing" constant="40" id="8go-u8-6yh"/>
                             <constraint firstItem="GnL-3r-Oab" firstAttribute="height" secondItem="nN9-dO-GP0" secondAttribute="height" id="D5y-af-L63"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="nPT-g7-TQh" secondAttribute="bottom" constant="20" id="Dg4-Qs-G4U"/>
                             <constraint firstItem="nN9-dO-GP0" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="40" id="EdS-QB-TJQ"/>
                             <constraint firstAttribute="centerY" secondItem="nN9-dO-GP0" secondAttribute="centerY" id="Gma-Qg-qqZ"/>
                             <constraint firstItem="K5B-0w-pLi" firstAttribute="width" secondItem="vz8-mW-9Hm" secondAttribute="width" id="Mvp-0T-3oz"/>
@@ -74,13 +75,12 @@
                             <constraint firstItem="GnL-3r-Oab" firstAttribute="top" secondItem="K5B-0w-pLi" secondAttribute="bottom" constant="10" id="aaz-sh-V8K"/>
                             <constraint firstAttribute="centerY" secondItem="GnL-3r-Oab" secondAttribute="centerY" id="fFR-Gp-BNd"/>
                             <constraint firstItem="nPT-g7-TQh" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="kyB-7Z-IRd"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="nPT-g7-TQh" secondAttribute="bottom" constant="20" id="lzI-e9-0yE"/>
                             <constraint firstAttribute="centerX" secondItem="3Tm-3T-dAL" secondAttribute="centerX" id="meE-tF-vhg"/>
                             <constraint firstAttribute="centerY" secondItem="3Tm-3T-dAL" secondAttribute="centerY" id="o56-EO-WDV"/>
                             <constraint firstAttribute="trailing" secondItem="K5B-0w-pLi" secondAttribute="trailing" constant="40" id="q6n-5a-MRa"/>
                             <constraint firstItem="GnL-3r-Oab" firstAttribute="width" secondItem="nN9-dO-GP0" secondAttribute="width" id="qU2-7b-xJR"/>
                             <constraint firstItem="nN9-dO-GP0" firstAttribute="top" relation="lessThanOrEqual" secondItem="vz8-mW-9Hm" secondAttribute="bottom" constant="10" id="u5W-Sn-2n7"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" relation="greaterThanOrEqual" secondItem="3Tm-3T-dAL" secondAttribute="bottom" constant="200" id="uL7-68-INN"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" relation="greaterThanOrEqual" secondItem="3Tm-3T-dAL" secondAttribute="bottom" constant="200" id="xrK-Ae-SVe"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -93,14 +93,15 @@
                         </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Currency calculator" id="cCi-jq-FHe">
-                        <barButtonItem key="rightBarButtonItem" title="Update schedule" id="fgP-y9-vCG">
+                        <barButtonItem key="rightBarButtonItem" title="Settings" id="aIa-ue-InD">
                             <connections>
-                                <action selector="refreshButton:" destination="vXZ-lx-hvc" id="KkP-ze-ua5"/>
+                                <action selector="refreshButton:" destination="vXZ-lx-hvc" id="gGy-Jk-9T5"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="convertedValue" destination="K5B-0w-pLi" id="JBG-E3-JEc"/>
+                        <outlet property="mainView" destination="kh9-bI-dsS" id="aWk-ro-aNP"/>
                         <outlet property="picker1" destination="nN9-dO-GP0" id="QWv-hh-jjz"/>
                         <outlet property="picker2" destination="GnL-3r-Oab" id="rTM-iX-S3F"/>
                         <outlet property="textField" destination="vz8-mW-9Hm" id="0T7-SK-OMC"/>

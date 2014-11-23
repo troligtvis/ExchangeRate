@@ -31,6 +31,9 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     @IBOutlet weak var convertedValue: UILabel!
     @IBOutlet weak var textField: UITextField!
     
+    @IBOutlet var mainView: UIView!
+    
+    
     @IBAction func refreshButton(sender: AnyObject) {
         var titleOnAlert = "Update"
         var messageOnAlert = "When do you want the updates?"
@@ -49,8 +52,7 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
-    
-
+    // Handler for the UIAlertActions
     func changeUpdateTime(alert: UIAlertAction!){
         Async.background{
             switch(alert.title){
@@ -114,12 +116,12 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
         Async.background {
-            //println("A: This is run on the \(qos_class_self().description) (expected \(qos_class_main().description))")
+            // This will run on the background thread.
             
             self.xmlParser.checkTime(self.coreDataStack)
             
             }.main {
-                //println("B: This is run on the \(qos_class_self().description) (expected \(qos_class_main().description)), after the previous block")
+                // When background thread is done this part is calling the main thread and updates it.
                 
                 self.exchange = self.xmlParser.exchange
                 self.time = self.xmlParser.time
@@ -146,7 +148,13 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
         // Dispose of any resources that can be recreated.
     }
     
-    //MARK: - Delegates and datasources
+    @IBAction func unwindToViewController(segue: UIStoryboardSegue) {
+        
+    }
+    
+    
+    
+    //MARK: - UIPickerView - Delegates and datasources
     //MARK: Data Sources
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
@@ -180,7 +188,8 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView!) -> UIView {
         var pickerLabel = view as UILabel!
         
-        if view == nil { //if no label there yet
+        //if there is no label yet
+        if view == nil {
             pickerLabel = UILabel()
             
             let hue = CGFloat(row)/CGFloat(exchange.count)

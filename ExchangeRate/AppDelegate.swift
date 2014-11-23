@@ -22,17 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         xmlParser = XMLParserTest()
-        
-        
-        
-        //xmlParser.importTimeIfNeeded(self.coreDataStack, needUpdate: false)
-        
-        
+    
         let navController = window!.rootViewController as UINavigationController
         let viewController = navController.topViewController as ViewController
         viewController.coreDataStack = coreDataStack
         viewController.xmlParser = xmlParser
-        //viewController.exchange = xmlParser.exchange
         
         return true
     }
