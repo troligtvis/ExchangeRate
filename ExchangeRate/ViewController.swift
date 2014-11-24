@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDelegate {
+class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     
     var coreDataStack: CoreDataStack!
     
@@ -70,7 +70,6 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
                 break;
             }
         }
-        
     }
     
     @IBAction func convertButton(sender: AnyObject) {
@@ -111,7 +110,19 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
     }
     
     override func viewDidAppear(animated: Bool) {
-
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: "appDidBecomeActive:",
+            name: UIApplicationDidBecomeActiveNotification,
+            object: nil)
+        
+        populatePickers()
+        
+        timeLabel.text = timeStr
+    }
+    
+    func populatePickers(){
         var dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         
@@ -139,8 +150,11 @@ class ViewController: UIViewController, UIPickerViewDataSource,UIPickerViewDeleg
                     self.timeLabel.text = dateParse
                 }
         }
-        
-        timeLabel.text = timeStr
+    }
+    
+    func appDidBecomeActive(notification: NSNotification) {
+        println("appDidBecomeActive - ViewController")
+        populatePickers()
     }
     
     override func didReceiveMemoryWarning() {

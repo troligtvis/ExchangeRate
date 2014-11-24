@@ -16,7 +16,6 @@
 		2B98C2941A10C39A00AAB0EE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B98C2931A10C39A00AAB0EE /* Images.xcassets */; };
 		2B98C2971A10C39A00AAB0EE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B98C2951A10C39A00AAB0EE /* LaunchScreen.xib */; };
 		2B98C2A31A10C39A00AAB0EE /* ExchangeRateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B98C2A21A10C39A00AAB0EE /* ExchangeRateTests.swift */; };
-		2B98C2B51A11149B00AAB0EE /* XMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B98C2B41A11149B00AAB0EE /* XMLParser.swift */; };
 		2BA0A1F01A12426C0086CA40 /* Calculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA0A1EF1A12426C0086CA40 /* Calculate.swift */; };
 		2BA0A1F21A1254000086CA40 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BA0A1F11A1254000086CA40 /* Reachability.swift */; };
 		2BC500551A1D358800271114 /* XMLParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC500541A1D358800271114 /* XMLParserTest.swift */; };
@@ -48,7 +47,6 @@
 		2B98C29C1A10C39A00AAB0EE /* ExchangeRateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExchangeRateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B98C2A11A10C39A00AAB0EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B98C2A21A10C39A00AAB0EE /* ExchangeRateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateTests.swift; sourceTree = "<group>"; };
-		2B98C2B41A11149B00AAB0EE /* XMLParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLParser.swift; sourceTree = "<group>"; };
 		2BA0A1EF1A12426C0086CA40 /* Calculate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Calculate.swift; sourceTree = "<group>"; };
 		2BA0A1F11A1254000086CA40 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		2BC500541A1D358800271114 /* XMLParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLParserTest.swift; sourceTree = "<group>"; };
@@ -112,7 +110,6 @@
 				2B98C2891A10C39900AAB0EE /* AppDelegate.swift */,
 				2B98C28E1A10C39A00AAB0EE /* ViewController.swift */,
 				2B98C2901A10C39A00AAB0EE /* Main.storyboard */,
-				2B98C2B41A11149B00AAB0EE /* XMLParser.swift */,
 				2B98C2931A10C39A00AAB0EE /* Images.xcassets */,
 				2B98C2951A10C39A00AAB0EE /* LaunchScreen.xib */,
 				2B98C2871A10C39900AAB0EE /* Supporting Files */,
@@ -248,7 +245,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B98C2B51A11149B00AAB0EE /* XMLParser.swift in Sources */,
 				2B98C28F1A10C39A00AAB0EE /* ViewController.swift in Sources */,
 				2BC500571A1D416800271114 /* Time.swift in Sources */,
 				2BA0A1F21A1254000086CA40 /* Reachability.swift in Sources */,

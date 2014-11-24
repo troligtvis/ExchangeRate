@@ -23,16 +23,13 @@ class CoreDataStack{
         
         psc = NSPersistentStoreCoordinator(managedObjectModel:model)
         
-        //context = NSManagedObjectContext()
         context = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
         context.persistentStoreCoordinator = psc
         
         let documentsURL = applicationDocumentsDirectory()
-        let storeURL =
-        documentsURL.URLByAppendingPathComponent("ExchangeRate")
+        let storeURL = documentsURL.URLByAppendingPathComponent("ExchangeRate")
         
-        let options =
-        [NSMigratePersistentStoresAutomaticallyOption: true]
+        let options = [NSMigratePersistentStoresAutomaticallyOption: true]
         
         var error: NSError? = nil
         store = psc.addPersistentStoreWithType(NSSQLiteStoreType,
@@ -45,7 +42,6 @@ class CoreDataStack{
             println("Error adding persistent store: \(error)")
             abort()
         }
-        
     }
     
     func saveContext() {
@@ -54,17 +50,14 @@ class CoreDataStack{
         if context.hasChanges && !context.save(&error) {
             println("Could not save: \(error), \(error?.userInfo)")
         }
-        
     }
     
     func applicationDocumentsDirectory() -> NSURL {
         
         let fileManager = NSFileManager.defaultManager()
-        
         let urls = fileManager.URLsForDirectory(.DocumentDirectory,
             inDomains: .UserDomainMask) as Array<NSURL>
         
         return urls[0]
     }
-    
 }

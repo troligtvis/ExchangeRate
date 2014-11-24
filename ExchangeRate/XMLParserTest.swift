@@ -213,7 +213,7 @@ class XMLParserTest: NSObject, NSXMLParserDelegate {
         
         var newTime = ( interval / 60 ) / 60
         
-        //println("dateOld: \(dateOld) dateNow: \(dateNow) interval: \(newTime) multiplier: \(multiplier)")
+        println("dateOld: \(dateOld) dateNow: \(dateNow) interval: \(newTime) multiplier: \(multiplier)")
         
         
         // check if the interval of the times is over 24 * multiplier.
